@@ -7,6 +7,7 @@ import random
 import datetime
 import time
 from tkinter import messagebox
+from tkinter import font
 from turtle import width
 # import mysql.connector
 
@@ -21,30 +22,30 @@ class Hospital:
         lbltitle = Label(self.root, bd=20, relief=RIDGE, text="HOSPITAL MANAGEMENT SYSTEM", fg="red", bg="white", font=('times new roman',50,"bold"))
         lbltitle.pack(side=TOP, fill=X)
 
-        #=========================Data Frame============================
+        #========================= Data Frame ============================
 
-        Dataframe = Frame(self.root, bd=20, relief=RIDGE)
+        Dataframe = Frame(self.root, bd=18, relief=RIDGE)
         Dataframe.place(x=0, y=130, width=1375, height=360)
 
-        DataframeLeft = LabelFrame(Dataframe, bd=10, relief=RIDGE, padx=20,
+        DataframeLeft = LabelFrame(Dataframe, bd=10, relief=RIDGE, padx=18,
                                                             font = ('arial', 12 , "bold"), text="Patient Information")
-        DataframeLeft.place(x=0, y=5, width=840, height=310 )
+        DataframeLeft.place(x=0, y=5, width=900, height=310 )
 
-        DataframeRight = LabelFrame(Dataframe, bd=10, relief=RIDGE, padx=20,
+        DataframeRight = LabelFrame(Dataframe, bd=9, relief=RIDGE, padx=20,
                                                             font = ('arial', 12 , "bold"), text="Prescription")
-        DataframeRight.place(x=845, y=5, width=410, height=310 )
+        DataframeRight.place(x=905, y=5, width=350, height=310 )
 
-        #=========================Buttons Frame============================
+        #========================= Buttons Frame ============================
 
-        Buttonframe = Frame(self.root, bd=20, relief=RIDGE)
+        Buttonframe = Frame(self.root, bd=18, relief=RIDGE)
         Buttonframe.place(x=0, y=490, width=1375, height=70)
 
-        #=========================Details Frame============================
+        #========================= Details Frame ============================
 
-        Detailsframe = Frame(self.root, bd=20, relief=RIDGE)
-        Detailsframe.place(x=0, y=560, width=1375, height=145)
+        Detailsframe = Frame(self.root, bd=18, relief=RIDGE)
+        Detailsframe.place(x=0, y=560, width=1290, height=105)
 
-        #=============================DataframeLeft============================
+        #============================= Dataframe Left ============================
 
         lblNameTablet = Label(DataframeLeft, text="Tablet Names", font = ('arial', 12 , "bold"),padx=2, pady=5)
         lblNameTablet.grid(row=0, column=0, sticky=W)
@@ -141,6 +142,82 @@ class Hospital:
         txtPaddress.grid(row=8, column=3)
 
 
+        #======================================= DataFrame Right ====================================
+
+        self.txtPrescription = Text(DataframeRight, font = ('arial', 12,'bold'), width=32, height=14,padx=2,pady=5)
+        self.txtPrescription.grid(row=0,column=0)
+
+        #======================================= Buttons ====================================
+
+        btnPrescription = Button(Buttonframe, text= "Prescription", bg="green", fg="white", font = ("arial",12,"bold"), width=20, height=1, padx=2, pady=5 )
+        btnPrescription.grid(row=0, column=0)
+
+        btnPrescriptionData = Button(Buttonframe, text= "Prescription Data", bg="green", fg="white", font = ("arial",12,"bold"), width=20, height=1, padx=2, pady=5 )
+        btnPrescriptionData.grid(row=0, column=1)
+
+        btnUpdate = Button(Buttonframe, text= "Update", bg="green", fg="white", font = ("arial",12,"bold"), width=20, height=1, padx=2, pady=5 )
+        btnUpdate.grid(row=0, column=2)
+
+        btnDelete = Button(Buttonframe, text= "Delete", bg="green", fg="white", font = ("arial",12,"bold"), width=20, height=1, padx=2, pady=5 )
+        btnDelete.grid(row=0, column=3)
+
+        btnClear = Button(Buttonframe, text= "Clear", bg="green", fg="white", font = ("arial",12,"bold"), width=20, height=1, padx=2, pady=5 )
+        btnClear.grid(row=0, column=4)
+
+        btnExit = Button(Buttonframe, text= "Exit", bg="green", fg="white", font = ("arial",12,"bold"), width=19, height=1, padx=2, pady=5 )
+        btnExit.grid(row=0, column=5)
+
+        #====================================== Table ===================================
+
+        #============= Scrollbar ============
+
+        scroll_x = ttk.Scrollbar(Detailsframe, orient=HORIZONTAL)
+        scroll_y = ttk.Scrollbar(Detailsframe, orient=VERTICAL)
+
+        self.hospital_table = ttk.Treeview(Detailsframe, column=("nameoftable",
+                                                                    "ref",'dose','nooftablets','lot','issuedate',
+                                                                    'expdate','dailydose','storage','nhsnumber',
+                                                                    'pname','dob','address'),xscrollcommand=scroll_y.set, yscrollcommand=scroll_x.set)
+
+        scroll_x.pack (side=BOTTOM, fill=X)
+        scroll_y.pack (side=RIGHT, fill=Y)
+
+        scroll_x =ttk.Scrollbar(command=self.hospital_table.xview)
+        scroll_y =ttk.Scrollbar(command=self.hospital_table.yview)
+
+        self.hospital_table.heading("nameoftable",text="Name Of Tablets")
+        self.hospital_table.heading("ref",text="Reference No.")
+        self.hospital_table.heading("dose",text="Dose")
+        self.hospital_table.heading("nooftablets",text="No Of Tablets")
+        self.hospital_table.heading("lot",text="Lot")
+        self.hospital_table.heading("issuedate",text="Issue Date")
+        self.hospital_table.heading("expdate",text="Exp Date")
+        self.hospital_table.heading("dailydose",text="Daily Dose")
+        self.hospital_table.heading("storage",text="Storage")
+        self.hospital_table.heading("nhsnumber",text="NHS Number")
+        self.hospital_table.heading("pname",text="Patient Name")
+        self.hospital_table.heading("dob",text="DOB")
+        self.hospital_table.heading("address",text="Address")
+
+        self.hospital_table['show']='headings'
+
+
+        self.hospital_table.column("nameoftable",width=100)
+        self.hospital_table.column("ref",width=100)
+        self.hospital_table.column("dose",width=80)
+        self.hospital_table.column("nooftablets",width=100)
+        self.hospital_table.column("lot",width=90)
+        self.hospital_table.column("issuedate",width=100)
+        self.hospital_table.column("expdate",width=100)
+        self.hospital_table.column("dailydose",width=80)
+        self.hospital_table.column("storage",width=100)
+        self.hospital_table.column("nhsnumber",width=100)
+        self.hospital_table.column("pname",width=95)
+        self.hospital_table.column("dob",width=88)
+        self.hospital_table.column("address",width=90)
+
+
+        self.hospital_table.pack(fill=BOTH, expand=1)
 
 
 
